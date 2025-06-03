@@ -1,0 +1,123 @@
+<!DOCTYPE html>Add commentMore actionsAdd commentMore actions
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Penukaran Rewards</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #fef3c7;
+      padding: 40px;
+      text-align: center;
+      color: #78350f;
+    }
+
+    .brand-main {
+      font-size: 3em;
+      font-weight: 900;
+      color: #7c3aed;
+      text-shadow: 2px 2px 5px rgba(124, 58, 237, 0.2);
+      margin-bottom: 5px;
+    }
+
+    .brand-subtitle {
+      font-size: 1.4em;
+      color: #a16207;
+      margin-bottom: 30px;
+    }
+
+    .reward-box {
+      background-color: white;
+      padding: 25px;
+      margin: 20px auto;
+      width: 60%;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .reward-box h3 {
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #d97706;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #b45309;
+    }
+
+    .back {
+      margin-top: 30px;
+    }
+
+    .saldo-info {
+      font-weight: bold;
+      margin-bottom: 20px;
+      font-size: 1.1em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Brand dan Subjudul -->
+  <div class="brand-main">Osha Snack</div>
+  <div class="brand-subtitle">Penukaran Rewards</div>
+
+  <p class="saldo-info" id="saldoDisplay">Memuat saldo Anda...</p>
+
+  <div class="reward-box">
+    <h3>Diskon 5%</h3>
+    <p>Tukar 50 poin</p>
+    <button onclick="tukarReward(50, 'Diskon 5%')">Tukar</button>
+  </div>
+
+  <div class="reward-box">
+    <h3>Diskon 20%</h3>
+    <p>Tukar 300 poin</p>
+    <button onclick="tukarReward(300, 'Diskon 20%')">Tukar</button>
+  </div>
+
+  <div class="reward-box">
+    <h3>Diskon 30%</h3>
+    <p>Tukar 1000 poin</p>
+    <button onclick="tukarReward(1000, 'Diskon 30%')">Tukar</button>
+  </div>
+
+  <div class="back">
+    <button onclick="window.location.href='profil.html'">Kembali ke Profil</button>
+  </div>
+
+  <script>
+    if (localStorage.getItem("isLoggedIn") !== "true") {
+      alert("Silakan login terlebih dahulu.");
+      window.location.href = "login.html";
+    }
+
+    let saldo = parseInt(localStorage.getItem("saldoKoin")) || 0;
+    document.getElementById("saldoDisplay").textContent = `Saldo Anda: ${saldo} koin`;
+
+    function tukarReward(poin, reward) {
+      if (saldo >= poin) {
+        saldo -= poin;
+        localStorage.setItem("saldoKoin", saldo);
+
+        let user = JSON.parse(localStorage.getItem("user"));
+        user.saldoKoin = saldo;
+        localStorage.setItem("user", JSON.stringify(user));
+
+        alert(`Berhasil menukar ${poin} poin untuk ${reward}!`);
+        document.getElementById("saldoDisplay").textContent = `Saldo Anda: ${saldo} koin`;
+      } else {
+        alert("Saldo koin tidak mencukupi.");
+      }
+    }
+  </script>
+</body>
+</html>
